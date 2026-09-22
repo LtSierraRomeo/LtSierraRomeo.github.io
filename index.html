@@ -5,35 +5,47 @@
     <title>Problem Set</title>
     
     <!-- Anti-Cheat Script for GitHub Pages -->
-    <script>
-      // 1. Check if the user is already "banned" as soon as the page loads
-      if (localStorage.getItem('cheat_detected') === 'true') {
-        lockScreen();
-      }
+<script>
+  let isRefreshing = false;
 
-      // 2. Listen for tab switching
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden') {
-          // Mark as banned in the browser's local storage
-          localStorage.setItem('cheat_detected', 'true');
-          lockScreen();
-        }
-      });
+  // 1. Detect if the user is just refreshing or closing the page
+  window.addEventListener('beforeunload', () => {
+    isRefreshing = true;
+  });
 
-      // 3. Function to completely replace the page content
-      function lockScreen() {
-        window.stop(); 
-        document.documentElement.innerHTML = `
-          <head><title>Access Revoked</title></head>
-          <body style="display:flex; justify-content:center; align-items:center; height:100vh; margin:0; background:#111; color:#ff4d4d; font-family:sans-serif; text-align:center;">
-            <div>
-              <h1 style="font-size: 2rem; margin-bottom: 10px;">Connection Terminated</h1>
-              <p>Tab switching is prohibited. Your session has been locked.</p>
-            </div>
-          </body>
-        `;
-      }
-    </script>
+  // 2. Secret Admin Unban Trick (visit URL with ?unban=admin)
+  if (window.location.search === '?unban=admin') {
+    localStorage.removeItem('cheat_detected');
+    window.location.href = window.location.pathname; // Clean up the URL
+  }
+
+  // 3. Check for existing ban on load
+  if (localStorage.getItem('cheat_detected') === 'true') {
+    lockScreen();
+  }
+
+  // 4. Tab-switch listener (ignores page refreshes)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && !isRefreshing) {
+      localStorage.setItem('cheat_detected', 'true');
+      lockScreen();
+    }
+  });
+
+  // 5. Lock screen UI
+  function lockScreen() {
+    window.stop();
+    document.documentElement.innerHTML = `
+      <head><title>Access Revoked</title></head>
+      <body style="display:flex; justify-content:center; align-items:center; height:100vh; margin:0; background:#111; color:#ff4d4d; font-family:sans-serif; text-align:center;">
+        <div>
+          <h1 style="font-size: 2rem; margin-bottom: 10px;">Connection Terminated</h1>
+          <p>Tab switching is prohibited. Your session has been locked.</p>
+        </div>
+      </body>
+    `;
+  }
+</script>
 
     <style>
         @page { margin: 0; }
