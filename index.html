@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Problem Set</title>
+    
+    <!-- Anti-Cheat Script for GitHub Pages -->
+    <script>
+      // 1. Check if the user is already "banned" as soon as the page loads
+      if (localStorage.getItem('cheat_detected') === 'true') {
+        lockScreen();
+      }
+
+      // 2. Listen for tab switching
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          // Mark as banned in the browser's local storage
+          localStorage.setItem('cheat_detected', 'true');
+          lockScreen();
+        }
+      });
+
+      // 3. Function to completely replace the page content
+      function lockScreen() {
+        window.stop(); 
+        document.documentElement.innerHTML = `
+          <head><title>Access Revoked</title></head>
+          <body style="display:flex; justify-content:center; align-items:center; height:100vh; margin:0; background:#111; color:#ff4d4d; font-family:sans-serif; text-align:center;">
+            <div>
+              <h1 style="font-size: 2rem; margin-bottom: 10px;">Connection Terminated</h1>
+              <p>Tab switching is prohibited. Your session has been locked.</p>
+            </div>
+          </body>
+        `;
+      }
+    </script>
+
+    <style>
+        @page { margin: 0; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        html { background-color: #ffffff; }
+        @media (prefers-color-scheme: dark) {
+            html { background-color: #1f1f1f; }
+        }
+        body { 
+            padding: 24px 0;
+            margin: 0 auto;
+            max-width: 900px !important;
+            border: none !important;
+            background: transparent !important; 
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+        .page {
+            height: 297mm;
+            margin: 0 auto 12px auto;
+            padding: 18mm 18mm 12mm 18mm;
+            background-color: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        @media screen and (max-width: 600px) {
+            body { padding: 16px 0; }
+            .page {
+                margin: 0 auto 8px auto;
+                border: none;
+                padding: 12px 20px;
+                height: auto;
+                min-height: 100vh;
+            }
+        }
+        .page-content {
+            flex: 1 1 0;
+            min-height: 0;
+            overflow: hidden;
+        }
+        .page-footer {
+            flex-shrink: 0;
+            margin-top: auto;
+            padding-top: 4mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8.5pt;
+            color: #64748b;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            border-top: 1px solid #e2e8f0;
+        }
+        @media print {
+            *, *::before, *::after {
+                box-shadow: none !important;
+                text-shadow: none !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            body { padding: 0; background: none; }
+            .page {
+                margin: 0;
+                border: none;
+                height: 297mm;
+                break-after: page;
+                page-break-after: always;
+            }
+            .page:last-child { break-after: auto; page-break-after: auto; }
+        }
+        [contenteditable]:focus { outline: none; }
+
+        /* Document Specific Styles */
+        h1 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 22pt;
+            margin-top: 0;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #334155;
+            color: #0f172a;
+        }
+        h2 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 13pt;
+            color: #334155;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        p {
+            font-size: 10.5pt;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        .example-box, .constraint-box, .code-box {
+            background-color: #f8fafc;
+            border-left: 4px solid #cbd5e1;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 9pt;
+        }
+        .constraint-box {
+            border-left-color: #f59e0b;
+        }
+        .code-box {
+            border-left-color: #3b82f6;
+            margin-bottom: 6px;
+        }
+        .language-label {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            font-size: 8.5pt;
+            color: #475569;
+            margin-bottom: 4px;
+            display: block;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f1f5f9;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 9.5pt;
+        }
+        ul {
+            margin: 0 0 12px 0;
+            padding-left: 24px;
+            font-size: 10.5pt;
+        }
+        li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+<div>
+
+    <!-- PAGE 1 -->
+    <section class="page">
+        <div class="page-content">
+            <h1>Problem 1</h1>
+            
+            <h2>Description</h2>
+            <p>An axis-aligned rectangle is represented as a list <code>[x1, y1, x2, y2]</code>, where <code>(x1, y1)</code> is the coordinate of its bottom-left corner, and <code>(x2, y2)</code> is the coordinate of its top-right corner. Its top and bottom edges are parallel to the X-axis, and its left and right edges are parallel to the Y-axis.</p>
+            <p>Two rectangles overlap if the area of their intersection is positive. To be clear, two rectangles that only touch at the corner or edges do not overlap.</p>
+            <p>Given two axis-aligned rectangles <code>rec1</code> and <code>rec2</code>, return <code>true</code> if they overlap, otherwise return <code>false</code>.</p>
+
+            <h2>Examples</h2>
+            <div class="example-box">
+                <strong>Example 1:</strong><br>
+                <strong>Input:</strong> rec1 = [0,0,2,2], rec2 = [1,1,3,3]<br>
+                <strong>Output:</strong> true
+            </div>
+            <div class="example-box">
+                <strong>Example 2:</strong><br>
+                <strong>Input:</strong> rec1 = [0,0,1,1], rec2 = [1,0,2,1]<br>
+                <strong>Output:</strong> false
+            </div>
+            <div class="example-box">
+                <strong>Example 3:</strong><br>
+                <strong>Input:</strong> rec1 = [0,0,1,1], rec2 = [2,2,3,3]<br>
+                <strong>Output:</strong> false
+            </div>
+
+            <h2>Constraints</h2>
+            <div class="constraint-box">
+                <ul>
+                    <li><code>rec1.length == 4</code></li>
+                    <li><code>rec2.length == 4</code></li>
+                    <li><code>-10<sup>9</sup> &lt;= rec1[i], rec2[i] &lt;= 10<sup>9</sup></code></li>
+                    <li><code>rec1</code> and <code>rec2</code> represent a valid rectangle with a non-zero area.</li>
+                </ul>
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>Problem Set</span>
+            <span>Page 1</span>
+        </footer>
+    </section>
+
+    <!-- PAGE 2 -->
+    <section class="page">
+        <div class="page-content">
+            <h1>Problem 1 (Cont.)</h1>
+            <h2>Function Signatures</h2>
+            <div class="code-box">
+                <span class="language-label">C++</span>
+                class Solution {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;bool isRectangleOverlap(vector&lt;int&gt;&amp; rec1, vector&lt;int&gt;&amp; rec2) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Return type: bool<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                };
+            </div>
+            <div class="code-box">
+                <span class="language-label">Java</span>
+                class Solution {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;public boolean isRectangleOverlap(int[] rec1, int[] rec2) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Return type: boolean<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+            <div class="code-box">
+                <span class="language-label">Python 3</span>
+                class Solution:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;def isRectangleOverlap(self, rec1: List[int], rec2: List[int]) -&gt; bool:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Return type: bool<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>Problem Set</span>
+            <span>Page 2</span>
+        </footer>
+    </section>
+
+    <!-- PAGE 3 -->
+    <section class="page">
+        <div class="page-content">
+            <h1>Problem 2</h1>
+            
+            <h2>Description</h2>
+            <p>The string <code>"PAYPALISHIRING"</code> is written in a zigzag pattern on a given number of rows like this:</p>
+            <pre class="example-box" style="background: transparent; border: none; font-size: 10pt; line-height: 1.2; padding-left: 0;">P   A   H   N
+A P L S I I G
+Y   I   R</pre>
+            <p>And then read line by line: <code>"PAHNAPLSIIGYIR"</code>.</p>
+            <p>Write the code that will take a string and make this conversion given a number of rows.</p>
+
+            <h2>Examples</h2>
+            <div class="example-box">
+                <strong>Example 1:</strong><br>
+                <strong>Input:</strong> s = "PAYPALISHIRING", numRows = 3<br>
+                <strong>Output:</strong> "PAHNAPLSIIGYIR"
+            </div>
+            <div class="example-box">
+                <strong>Example 2:</strong><br>
+                <strong>Input:</strong> s = "PAYPALISHIRING", numRows = 4<br>
+                <strong>Output:</strong> "PINALSIGYAHRPI"<br>
+                <strong>Explanation:</strong>
+<pre style="margin: 8px 0 0 0; font-family: inherit; font-size: inherit; background: transparent; border: none; padding: 0;">P     I    N
+A   L S  I G
+Y A   H R
+P     I</pre>
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>Problem Set</span>
+            <span>Page 3</span>
+        </footer>
+    </section>
+
+    <!-- PAGE 4 -->
+    <section class="page">
+        <div class="page-content">
+            <h1>Problem 2 (Cont.)</h1>
+            <div class="example-box" style="margin-top: 10px;">
+                <strong>Example 3:</strong><br>
+                <strong>Input:</strong> s = "A", numRows = 1<br>
+                <strong>Output:</strong> "A"
+            </div>
+
+            <h2>Constraints</h2>
+            <div class="constraint-box">
+                <ul>
+                    <li><code>1 &lt;= s.length &lt;= 1000</code></li>
+                    <li><code>s</code> consists of English letters (lower-case and upper-case), <code>','</code> and <code>'.'</code>.</li>
+                    <li><code>1 &lt;= numRows &lt;= 1000</code></li>
+                </ul>
+            </div>
+
+            <h2>Function Signatures</h2>
+            <div class="code-box">
+                <span class="language-label">C++</span>
+                class Solution {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;string convert(string s, int numRows) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Return type: string<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                };
+            </div>
+            <div class="code-box">
+                <span class="language-label">Java</span>
+                class Solution {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;public String convert(String s, int numRows) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Return type: String<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+            <div class="code-box">
+                <span class="language-label">Python 3</span>
+                class Solution:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;def convert(self, s: str, numRows: int) -&gt; str:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Return type: str<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>Problem Set</span>
+            <span>Page 4</span>
+        </footer>
+    </section>
+
+    <!-- PAGE 5 -->
+    <section class="page">
+        <div class="page-content">
+            <h1>Problem 3</h1>
+            
+            <h2>Description</h2>
+            <p>There is a singly-linked list <code>head</code> and we want to delete a node <code>node</code> in it.</p>
+            <p>You are given the node to be deleted <code>node</code>. You will <strong>not be given access</strong> to the first node of <code>head</code>.</p>
+            <p>All the values of the linked list are <strong>unique</strong>, and it is guaranteed that the given node <code>node</code> is not the last node in the linked list.</p>
+            <p>Delete the given node. Note that by deleting the node, we do not mean removing it from memory. We mean:</p>
+            <ul>
+                <li>The value of the given node should not exist in the linked list.</li>
+                <li>The number of nodes in the linked list should decrease by one.</li>
+                <li>All the values before <code>node</code> should be in the same order.</li>
+                <li>All the values after <code>node</code> should be in the same order.</li>
+            </ul>
+
+            <h2>Examples</h2>
+            <div class="example-box">
+                <strong>Example 1:</strong><br>
+                <strong>Input:</strong> head = [4,5,1,9], node = 5<br>
+                <strong>Output:</strong> [4,1,9]<br>
+                <strong>Explanation:</strong> You are given the second node with value 5, the linked list should become 4 -&gt; 1 -&gt; 9.
+            </div>
+            <div class="example-box">
+                <strong>Example 2:</strong><br>
+                <strong>Input:</strong> head = [4,5,1,9], node = 1<br>
+                <strong>Output:</strong> [4,5,9]<br>
+                <strong>Explanation:</strong> You are given the third node with value 1, the linked list should become 4 -&gt; 5 -&gt; 9.
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>Problem Set</span>
+            <span>Page 5</span>
+        </footer>
+    </section>
+
+    <!-- PAGE 6 -->
+    <section class="page">
+        <div class="page-content">
+            <h1>Problem 3 (Cont.)</h1>
+            
+            <h2>Constraints</h2>
+            <div class="constraint-box">
+                <ul>
+                    <li>The number of the nodes in the given list is in the range <code>[2, 1000]</code>.</li>
+                    <li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
+                    <li>The value of each node in the list is <strong>unique</strong>.</li>
+                    <li>The <code>node</code> to be deleted is <strong>in the list</strong> and is <strong>not a tail</strong> node.</li>
+                </ul>
+            </div>
+
+            <h2>Data Structures &amp; Signatures</h2>
+            <div class="code-box">
+                <span class="language-label">C++</span>
+                struct ListNode {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;int val;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;ListNode *next;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;ListNode(int x) : val(x), next(nullptr) {}<br>
+                };<br>
+                class Solution {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;void deleteNode(ListNode* node) { // Return type: void }<br>
+                };
+            </div>
+            <div class="code-box">
+                <span class="language-label">Java</span>
+                public class ListNode {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;int val;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;ListNode next;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;ListNode(int x) { val = x; }<br>
+                }<br>
+                class Solution {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;public void deleteNode(ListNode node) { // Return type: void }<br>
+                }
+            </div>
+            <div class="code-box">
+                <span class="language-label">Python 3</span>
+                class ListNode:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, x):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.val = x<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.next = None<br>
+                class Solution:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;def deleteNode(self, node): # Return type: None<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>Problem Set</span>
+            <span>Page 6</span>
+        </footer>
+    </section>
+
+    <!-- PAGE 7 -->
+    <section class="page">
+        <div class="page-content">
+            <h1>Problem 4</h1>
+            
+            <h2>Description</h2>
+            <p>Given two sorted arrays <code>nums1</code> and <code>nums2</code> of size <code>m</code> and <code>n</code> respectively, return <strong>the median</strong> of the two sorted arrays.</p>
+            <p>The overall run time complexity should be <code>O(log (m+n))</code>.</p>
+
+            <h2>Examples</h2>
+            <div class="example-box">
+                <strong>Example 1:</strong><br>
+                <strong>Input:</strong> nums1 = [1,3], nums2 = [2]<br>
+                <strong>Output:</strong> 2.00000<br>
+                <strong>Explanation:</strong> merged array = [1,2,3] and median is 2.
+            </div>
+            <div class="example-box">
+                <strong>Example 2:</strong><br>
+                <strong>Input:</strong> nums1 = [1,2], nums2 = [3,4]<br>
+                <strong>Output:</strong> 2.50000<br>
+                <strong>Explanation:</strong> merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
+            </div>
+
+            <h2>Constraints</h2>
+            <div class="constraint-box">
+                <ul>
+                    <li><code>nums1.length == m</code></li>
+                    <li><code>nums2.length == n</code></li>
+                    <li><code>0 &lt;= m &lt;= 1000</code></li>
+                    <li><code>0 &lt;= n &lt;= 1000</code></li>
+                    <li><code>1 &lt;= m + n &lt;= 2000</code></li>
+                    <li><code>-10<sup>6</sup> &lt;= nums1[i], nums2[i] &lt;= 10<sup>6</sup></code></li>
+                </ul>
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>Problem Set</span>
+            <span>Page 7</span>
+        </footer>
+    </section>
+
+    <!-- PAGE 8 -->
+    <section class="page">
+        <div class="page-content">
+            <h1>Problem 4 (Cont.)</h1>
+            <h2>Function Signatures</h2>
+            <div class="code-box">
+                <span class="language-label">C++</span>
+                class Solution {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;double findMedianSortedArrays(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Return type: double<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                };
+            </div>
+            <div class="code-box">
+                <span class="language-label">Java</span>
+                class Solution {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;public double findMedianSortedArrays(int[] nums1, int[] nums2) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Return type: double<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+            <div class="code-box">
+                <span class="language-label">Python 3</span>
+                class Solution:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -&gt; float:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Return type: float<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass
+            </div>
+        </div>
+        <footer class="page-footer">
+            <span>Problem Set</span>
+            <span>Page 8</span>
+        </footer>
+    </section>
+
+</div>
+</body>
+</html>
