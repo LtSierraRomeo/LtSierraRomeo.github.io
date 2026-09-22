@@ -6,27 +6,28 @@
     
     <!-- Anti-Cheat Script for GitHub Pages -->
 <script>
-  let isRefreshing = false;
+  let ignoreVisibility = false;
 
-  // 1. Detect if the user is just refreshing or closing the page
+  // 1. Detect natural refresh or tab close
   window.addEventListener('beforeunload', () => {
-    isRefreshing = true;
+    ignoreVisibility = true;
   });
 
-  // 2. Secret Admin Unban Trick (visit URL with ?unban=admin)
+  // 2. Secret Admin Unban
   if (window.location.search === '?unban=admin') {
     localStorage.removeItem('cheat_detected');
-    window.location.href = window.location.pathname; // Clean up the URL
+    ignoreVisibility = true; // FIX: Prevent the redirect from triggering a ban
+    window.location.href = window.location.pathname; 
   }
 
-  // 3. Check for existing ban on load
+  // 3. Check for existing ban
   if (localStorage.getItem('cheat_detected') === 'true') {
     lockScreen();
   }
 
-  // 4. Tab-switch listener (ignores page refreshes)
+  // 4. Tab-switch listener 
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden' && !isRefreshing) {
+    if (document.visibilityState === 'hidden' && !ignoreVisibility) {
       localStorage.setItem('cheat_detected', 'true');
       lockScreen();
     }
@@ -34,6 +35,7 @@
 
   // 5. Lock screen UI
   function lockScreen() {
+    ignoreVisibility = true; // Stop multiple triggers
     window.stop();
     document.documentElement.innerHTML = `
       <head><title>Access Revoked</title></head>
